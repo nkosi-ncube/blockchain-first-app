@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlockChain</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Inline CSS for text formatting */
+        body {
+            background-color: #f0f0f0; /* Set background color */
+        }
+        .block {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #ffffff;
+        }
+        .block-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .block-info {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        /* Bootstrap button styling */
+        #mine, #validate, #display {
+            margin: 10px; /* Add some space around buttons */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <button id="mine" class="btn btn-primary">Mine Block</button>
+        <button id="validate" class="btn btn-success">Validate Chain</button>
+        <button id="display" class="btn btn-info">Display Chain</button>
+        <div id="chain"></div>
+    </div>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#mine").click(function(){
+                var csrftoken = getCookie('csrftoken');
+                $.ajax({
+                    type:"POST",
+                    url:"/mine_block/",
+                    headers: {'X-CSRFToken': csrftoken},
+                    contentType:'application/json',
+                    data:JSON.stringify({'data':'some data for the new block'}),
+                    success:function(response){
+                        console.log(response);
+                        alert("Block mined successfully!")
+                    }
+                });
+            });
+
+            $("#validate").click(function(){
+                $.ajax({
+                    type:"GET",
+                    url:"/validate_chain/",
+                    success:function(response){
+                        alert(response.message);
+                    }
+                });
+            });
+
+            $("#display").click(function(){
+                $.ajax({
+                    type:'GET',
+                    url:'/display_chain/',
+                    success:function(response){
+                        console.log(response.chain);
+                        var chain_html = "";
+                        for(var i = 0;i < response.chain.length;i++){
+                            var block = response.chain[i];
+                            chain_html += '<div class="block">';
+                            chain_html += '<div class="block-title">Block #' + block.index + '</div>';
+                            chain_html += '<div class="block-info">Timestamp: ' + block.timestamp + '</div>';
+                            chain_html += '<div class="block-info">Data: ' + block.data + '</div>';
+                            chain_html += '<div class="block-info">Previous Hash: ' + block.previous_hash + '</div>';
+                            chain_html += '<div class="block-info">Hash: ' + block.hash + '</div>';
+                            chain_html += '</div>';
+                        }
+                        $("#chain").html(chain_html);
+                    }
+                });
+            });
+        });
+
+        // Function to get CSRF cookie
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
+</html>
