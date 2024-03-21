@@ -1,26 +1,18 @@
-# Todo List Web Application Powered by Blockchain
+# Blockchain Web Application
 
-This is a simple to-do list web application that utilizes blockchain technology to securely store and manage to-do list items. The application allows users to create, update, and delete to-do list items, with all data being stored on the Ethereum blockchain.
+This is a simple web application that demonstrates the concept of blockchain technology. The application allows users to interact with a blockchain by mining new blocks, validating the chain, and displaying the entire blockchain.
 
 ## Features
 
-- Create new to-do list items.
-- Update existing to-do list items.
-- Delete completed to-do list items.
-- Data stored securely on the Ethereum blockchain.
-- User-friendly interface powered by Django and Bootstrap.
+- **Mine Block**: Users can mine a new block by clicking the "Mine Block" button. This adds a new block to the blockchain.
+- **Validate Chain**: Users can validate the integrity of the blockchain by clicking the "Validate Chain" button. This checks if the blockchain is tamper-proof.
+- **Display Chain**: Users can view the entire blockchain by clicking the "Display Chain" button. This displays all blocks in the blockchain.
 
-## Setup
+## Technologies Used
 
-### Requirements
+- **Frontend**: HTML, Bootstrap, jQuery
+- **Backend**: Django (Python)
+- **Blockchain Interaction**: Web3.py (Python library for Ethereum blockchain interaction)
 
-- Python (3.6 or higher)
-- Django
-- Web3.py
-- Ganache (local Ethereum blockchain)
-- Solidity compiler
 
-### Installation
-
-1. Clone the repository:
 
